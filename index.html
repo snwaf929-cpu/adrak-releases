@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Download Adrak</title>
+<meta name="description" content="Download Adrak, a learning app for Windows and Mac: lessons, practice and an AI tutor.">
+<meta property="og:title" content="Download Adrak">
+<meta property="og:description" content="A learning app for Windows and Mac: lessons, practice and an AI tutor.">
+<meta property="og:image" content="https://snwaf929-cpu.github.io/adrak-releases/assets/adrak-icon.png">
+<link rel="icon" href="assets/adrak-icon.png">
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #16181d;
+    --soft: #5b6270;
+    --line: #e3e6eb;
+    --blue: #0067cf;
+    --green: #089743;
+    --red: #f31514;
+    --orange: #feab00;
+    --pick: #0067cf;
+    --pick-text: #ffffff;
+    --shadow: 0 10px 30px rgba(20, 30, 50, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111316;
+      --card: #1b1e23;
+      --text: #f1f3f5;
+      --soft: #a3aab6;
+      --line: #2c3139;
+      --pick: #2f8cf0;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", "SF Arabic", "Geeza Pro", Tahoma, Roboto, Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  a { color: var(--blue); }
+  @media (prefers-color-scheme: dark) { a { color: #6cb0ff; } }
+  .top { display: flex; justify-content: flex-end; padding: 16px; }
+  .lang {
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font: inherit;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  main { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 16px 32px; flex: 1; text-align: center; }
+  .wordmark { width: 220px; max-width: 60%; height: auto; display: block; margin: 8px auto 6px; }
+  h1 { font-size: clamp(28px, 6vw, 40px); line-height: 1.15; margin: 6px 0 8px; }
+  .lead { color: var(--soft); margin: 0 auto 28px; max-width: 34em; }
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 26px 18px 22px;
+    background: var(--card);
+    color: var(--text);
+    border: 2px solid var(--line);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    transition: transform .12s ease, border-color .12s ease;
+  }
+  .choice:hover { transform: translateY(-2px); border-color: var(--pick); }
+  .choice:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+  .choice svg { width: 44px; height: 44px; fill: currentColor; }
+  .choice .name { font-size: 22px; font-weight: 700; }
+  .choice .need { color: var(--soft); font-size: 15px; }
+  .choice .go {
+    margin-top: 10px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .choice.yours { border-color: var(--pick); order: -1; }
+  .choice.yours .go { background: var(--pick); color: var(--pick-text); }
+  .chip {
+    display: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green);
+    background: rgba(8, 151, 67, .12);
+    border-radius: 999px;
+    padding: 2px 10px;
+  }
+  .choice.yours .chip { display: inline-block; }
+  .note { color: var(--soft); margin: 18px 0 0; }
+  .steps {
+    text-align: start;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 22px 8px;
+    margin: 22px 0 0;
+  }
+  .steps h2 { font-size: 18px; margin: 0 0 6px; }
+  .steps ol { margin: 0; padding-inline-start: 22px; }
+  .steps li { margin: 0 0 10px; }
+  /* An English name in the Arabic steps, with its brackets: kept in one piece, so a line break can't scramble it. */
+  .steps bdi { display: inline-block; }
+  .meta { color: var(--soft); font-size: 15px; margin: 22px 0 0; }
+  footer { color: var(--soft); font-size: 14px; text-align: center; padding: 0 16px 24px; }
+  [hidden] { display: none !important; }
+  @media (max-width: 560px) {
+    .choices { grid-template-columns: 1fr; }
+    .choice { padding: 20px 16px 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .choice { transition: none; } .choice:hover { transform: none; } }
+</style>
+</head>
+<body>
+<div class="top"><button class="lang" id="lang" type="button" lang="ar">عربي</button></div>
+<main>
+  <img class="wordmark" src="assets/adrak-wordmark.png" width="560" height="303" alt="Adrak">
+  <h1 data-t="title">Download Adrak</h1>
+  <p class="lead" data-t="lead">Learn anything with lessons, practice and an AI tutor.</p>
+
+  <div class="choices">
+    <a class="choice" id="win" href="https://github.com/snwaf929-cpu/adrak-releases/releases/latest/download/AdrakApp-win-Setup.exe">
+      <span class="chip" data-t="yours">For this computer</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8.5v8.5H3zM12.5 3H21v8.5h-8.5zM3 12.5h8.5V21H3zM12.5 12.5H21V21h-8.5z"/></svg>
+      <span class="name" data-t="win">Windows</span>
+      <span class="need" data-t="winNeed">Windows 10 and 11</span>
+      <span class="go" data-t="get">Download</span>
+    </a>
+    <a class="choice" id="mac" href="https://github.com/snwaf929-cpu/adrak-releases/releases/latest/download/AdrakApp-osx-Setup.pkg">
+      <span class="chip" data-t="yours">For this computer</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+      <span class="name" data-t="mac">Mac</span>
+      <span class="need" data-t="macNeed">Apple silicon (M1 or newer)</span>
+      <span class="go" data-t="get">Download</span>
+    </a>
+  </div>
+
+  <p class="note" id="phone" data-t="phone" hidden>Adrak runs on computers: open this page on your Windows PC or Mac to download it.</p>
+
+  <section class="steps" id="steps-win" hidden>
+    <h2 data-t="after">After it downloads</h2>
+    <ol>
+      <li data-h="win1">Open <b>AdrakApp-win-Setup.exe</b> from your Downloads.</li>
+      <li data-h="win2">If Windows says “Windows protected your PC”, click <b>More info</b>, then <b>Run anyway</b>. Adrak isn’t code-signed yet.</li>
+      <li data-h="win3">Adrak opens by itself. Go to <b>Settings → AI</b> and connect an AI model with your own key.</li>
+    </ol>
+  </section>
+
+  <section class="steps" id="steps-mac" hidden>
+    <h2 data-t="after">After it downloads</h2>
+    <ol>
+      <li data-h="mac1">Open <b>AdrakApp-osx-Setup.pkg</b> from your Downloads.</li>
+      <li data-h="mac2">If macOS says it can’t check it, click <b>Done</b>, open <b>System Settings → Privacy &amp; Security</b>, and click <b>Open Anyway</b>. Adrak isn’t signed by Apple yet.</li>
+      <li data-h="mac3">Open <b>Adrak</b> from Applications, then go to <b>Settings → AI</b> and connect an AI model with your own key.</li>
+    </ol>
+  </section>
+
+  <p class="meta"><span id="version"></span><a href="https://github.com/snwaf929-cpu/adrak-releases/releases/latest" data-t="all">All files</a></p>
+</main>
+<footer data-t="footer">Adrak keeps itself up to date, and your learning stays on your computer.</footer>
+
+<script>
+(function () {
+  var words = {
+    en: {
+      title: 'Download Adrak',
+      lead: 'Learn anything with lessons, practice and an AI tutor.',
+      yours: 'For this computer',
+      win: 'Windows',
+      winNeed: 'Windows 10 and 11',
+      mac: 'Mac',
+      macNeed: 'Apple silicon (M1 or newer)',
+      get: 'Download',
+      phone: 'Adrak runs on computers: open this page on your Windows PC or Mac to download it.',
+      after: 'After it downloads',
+      win1: 'Open <b>AdrakApp-win-Setup.exe</b> from your Downloads.',
+      win2: 'If Windows says “Windows protected your PC”, click <b>More info</b>, then <b>Run anyway</b>. Adrak isn’t code-signed yet.',
+      win3: 'Adrak opens by itself. Go to <b>Settings → AI</b> and connect an AI model with your own key.',
+      mac1: 'Open <b>AdrakApp-osx-Setup.pkg</b> from your Downloads.',
+      mac2: 'If macOS says it can’t check it, click <b>Done</b>, open <b>System Settings → Privacy &amp; Security</b>, and click <b>Open Anyway</b>. Adrak isn’t signed by Apple yet.',
+      mac3: 'Open <b>Adrak</b> from Applications, then go to <b>Settings → AI</b> and connect an AI model with your own key.',
+      version: 'Version {0} · ',
+      all: 'All files',
+      footer: 'Adrak keeps itself up to date, and your learning stays on your computer.',
+      switchTo: 'عربي'
+    },
+    ar: {
+      title: 'حمّل أدراك',
+      lead: 'تعلّم أي شي بدروس وتمارين ومدرّس ذكي يساعدك.',
+      yours: 'المناسب لجهازك',
+      win: 'ويندوز',
+      winNeed: 'ويندوز 10 و 11',
+      mac: 'ماك',
+      macNeed: 'معالج Apple ‏(M1 أو أحدث)',
+      get: 'حمّل',
+      phone: 'أدراك يشتغل على الكمبيوتر: افتح هالصفحة من جهاز ويندوز أو ماك عشان تحمّله.',
+      after: 'بعد ما يخلص التحميل',
+      win1: 'افتح <b>AdrakApp-win-Setup.exe</b> من التنزيلات.',
+      win2: 'إذا طلعت لك رسالة إن ويندوز حمى جهازك <bdi dir="ltr">(Windows protected your PC)</bdi>، اضغط <b>مزيد من المعلومات</b> <bdi dir="ltr">(More info)</bdi> وبعدين <b>تشغيل على أي حال</b> <bdi dir="ltr">(Run anyway)</bdi>. أدراك لسّا ما هو موقّع.',
+      win3: 'أدراك بيفتح لحاله. روح <b>الإعدادات ← الذكاء الاصطناعي</b> ووصّل موديل ذكاء اصطناعي بمفتاحك.',
+      mac1: 'افتح <b>AdrakApp-osx-Setup.pkg</b> من التنزيلات.',
+      mac2: 'إذا قال لك الماك إنه ما يقدر يتحقق منه، اضغط <b>تم</b> <bdi dir="ltr">(Done)</bdi>، وافتح <b>إعدادات النظام ← الخصوصية والأمن</b> <bdi dir="ltr">(System Settings → Privacy &amp; Security)</bdi>، واضغط <b>فتح على أي حال</b> <bdi dir="ltr">(Open Anyway)</bdi>. أدراك لسّا ما هو موقّع من <bdi dir="ltr">Apple</bdi>.',
+      mac3: 'افتح <b>أدراك</b> من التطبيقات <bdi dir="ltr">(Applications)</bdi>، وروح <b>الإعدادات ← الذكاء الاصطناعي</b> ووصّل موديل ذكاء اصطناعي بمفتاحك.',
+      version: 'الإصدار {0} · ',
+      all: 'كل الملفات',
+      footer: 'أدراك يحدّث نفسه بنفسه، وتعلّمك يبقى على جهازك.',
+      switchTo: 'English'
+    }
+  };
+
+  var language = 'en';
+  var release = '';
+
+  function read(key) {
+    try { return window.localStorage.getItem(key); } catch (e) { return null; }
+  }
+
+  function keep(key, value) {
+    try { window.localStorage.setItem(key, value); } catch (e) { }
+  }
+
+  function show(next) {
+    language = next;
+    var t = words[language];
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+    document.title = t.title;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-t]'), function (element) {
+      element.textContent = t[element.getAttribute('data-t')];
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-h]'), function (element) {
+      element.innerHTML = t[element.getAttribute('data-h')];
+    });
+    var button = document.getElementById('lang');
+    button.textContent = t.switchTo;
+    button.lang = language === 'ar' ? 'en' : 'ar';
+    document.getElementById('version').textContent = release ? t.version.replace('{0}', release) : '';
+  }
+
+  // Which computer this is: a phone or tablet gets a note instead, an iPad included (it says it is a Mac).
+  function computer() {
+    var agent = navigator.userAgent || '';
+    var platform = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+    var touchMac = /Mac/i.test(platform) && navigator.maxTouchPoints > 1;
+    if ((navigator.userAgentData && navigator.userAgentData.mobile) || /Android|iPhone|iPad|iPod/i.test(agent) || touchMac) {
+      return 'phone';
+    }
+    if (/Win/i.test(platform) || /Windows/i.test(agent)) {
+      return 'win';
+    }
+    if (/Mac/i.test(platform) || /Mac OS X/i.test(agent)) {
+      return 'mac';
+    }
+    return '';
+  }
+
+  function steps(which) {
+    document.getElementById('steps-win').hidden = which !== 'win';
+    document.getElementById('steps-mac').hidden = which !== 'mac';
+  }
+
+  var mine = computer();
+  if (mine === 'win' || mine === 'mac') {
+    document.getElementById(mine).classList.add('yours');
+    steps(mine);
+  } else if (mine === 'phone') {
+    document.getElementById('phone').hidden = false;
+  }
+
+  ['win', 'mac'].forEach(function (which) {
+    document.getElementById(which).addEventListener('click', function () { steps(which); });
+  });
+
+  document.getElementById('lang').addEventListener('click', function () {
+    var next = language === 'ar' ? 'en' : 'ar';
+    keep('adrak-download-language', next);
+    show(next);
+  });
+
+  // A link may ask for a language (?lang=ar); otherwise the one picked here last, or the browser's own.
+  var asked = (/[?&]lang=(ar|en)\b/i.exec(window.location.search) || [])[1];
+  var chosen = asked ? asked.toLowerCase() : read('adrak-download-language');
+  show(chosen === 'ar' || chosen === 'en' ? chosen : /^ar\b/i.test(navigator.language || '') ? 'ar' : 'en');
+
+  // The newest version's number, from GitHub (the page works without it).
+  if (window.fetch) {
+    fetch('https://api.github.com/repos/snwaf929-cpu/adrak-releases/releases/latest')
+      .then(function (response) { return response.ok ? response.json() : null; })
+      .then(function (latest) {
+        if (latest && typeof latest.tag_name === 'string') {
+          release = latest.tag_name.replace(/^v/, '');
+          show(language);
+        }
+      })
+      .catch(function () { });
+  }
+})();
+</script>
+</body>
+</html>
